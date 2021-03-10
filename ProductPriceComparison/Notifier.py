@@ -56,11 +56,21 @@ def notifyPhoneEmail(aws_subject, aws_message):
     arn = 'arn:aws:sns:us-east-2:447523202168:ProductNotifier'
     sns_client = boto3.client(
         'sns',
-        aws_access_key_id = env.accessKey,
-        aws_secret_access_key = env.secretKey,
+        aws_access_key_id = data().accessKey,
+        aws_secret_access_key = data().secretKey,
         region_name = 'us-east-2'
     )
     response = sns_client.publish(TopicArn=arn, Message=aws_message, Subject=aws_subject)
     print(response)
+
+
+def testNotifyAll():
+    subject = 'Testing'
+    message = 'Product 123'
+    notifyDesktop(subject, message)
+    notifyPhoneEmail(subject, message)
+
+testNotifyAll()
+
 
 #def notifyOrderPlaced(product_price):

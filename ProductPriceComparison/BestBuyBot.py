@@ -11,7 +11,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 import datetime
-import Notifier
+#import Notifier
 
 # Configuration
 shipping = True
@@ -65,6 +65,7 @@ def main():
     browser = launchBrowser()
     signed_in_status = signIn(browser)
     if signed_in_status:
+        print('Signed in successfully!\n')
         loopAddtoCart(browser)
         order_placed = checkout(browser)
         if order_placed:
@@ -81,7 +82,7 @@ def launchBrowser():
     caps = DesiredCapabilities().CHROME
     caps["pageLoadStrategy"] = "eager"
     options = Options()
-    chrome_path = 'C:/Users/maixa/Documents/NguyenAnhClassWork/PracticeProjects/ProductPriceComparison/chromedriver.exe'
+    chrome_path = 'chromedriver'
     options.add_experimental_option("detach", True)
     return webdriver.Chrome(executable_path=chrome_path, desired_capabilities=caps, options=options)
 
@@ -110,16 +111,14 @@ def signIn(browser):
         except:
             return False
         else:
-            print('Signed in successfully!\n')
             return True
+
     else:
         try:
             WebDriverWait(browser, 10).until(EC.url_changes(current_signin_url))
         except:
-            print('Incorrect account name or password!\n')
             return False
         else:
-            print('Signed in successfully!\n')
             return True
 
 def loopAddtoCart(browser):
@@ -176,6 +175,7 @@ def checkout(browser):
             print('Shipping already set or unable to select shipping option!\n')
         else:
             print('Selected shipping option.\n')
+
     if payment_method_ready == False:
         try:
             WebDriverWait(browser, 30).until(EC.element_to_be_clickable((By.XPATH, BB_CONTINUE_PAYMENT_XPATH)))
@@ -210,9 +210,12 @@ def checkout(browser):
         return True
 
 def NotifyOrderPlaced():
+    pass
+    '''
     title = '(BestBuy) Order has been automatically placed!'
     message = 'Congratulation! '+product_name+' is placed.'
     Notifier.notifyDesktop(title, message)
     Notifier.notifyPhoneEmail(title, message)
+    '''
 
 main()
