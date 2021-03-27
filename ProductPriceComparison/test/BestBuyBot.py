@@ -24,13 +24,13 @@ final_viewing_time = 60*60
 
 # BESTBUY PAGE URLS:
 product_name = 'RTX 3060 Ti (BestBuy)'
-product_url = 'https://www.bestbuy.com/site/nvidia-geforce-rtx-3060-ti-8gb-gddr6-pci-express-4-0-graphics-card-steel-and-black/6439402.p?skuId=6439402'
+#product_url = 'https://www.bestbuy.com/site/nvidia-geforce-rtx-3060-ti-8gb-gddr6-pci-express-4-0-graphics-card-steel-and-black/6439402.p?skuId=6439402'
 #product_url = 'https://www.bestbuy.com/site/dell-inspiron-15-6-inch-fhd-touch-laptop-amd-ryzen-5-12gb-ram-256-gb-ssd-1-tb-hdd-black/6438338.p?skuId=6438338'
 #product_url = 'https://www.bestbuy.com/site/apple-watch-se-gps-40mm-silver-aluminum-case-with-white-sport-band-silver/6215915.p?skuId=6215915'
 #product_url = 'https://www.bestbuy.com/site/pny-nvidia-geforce-gt-1030-2gb-gddr5-pci-express-3-0-graphics-card-black/5901353.p?skuId=5901353'
 #product_url = 'https://www.bestbuy.com/site/wd-easystore-480gb-solid-state-drive-for-laptops/6411192.p?skuId=6411192'
 #product_url = 'https://www.bestbuy.com/site/sony-wh-ch510-wireless-on-ear-headphones-black/6359775.p?skuId=6359775'
-#product_url = 'https://www.bestbuy.com/site/macbook-air-13-3-laptop-apple-m1-chip-8gb-memory-256gb-ssd-latest-model-gold/6418599.p?skuId=6418599'
+product_url = 'https://www.bestbuy.com/site/macbook-air-13-3-laptop-apple-m1-chip-8gb-memory-256gb-ssd-latest-model-gold/6418599.p?skuId=6418599'
 
 BB_HOME_URL = 'https://www.bestbuy.com/'
 BB_SIGNIN_URL = 'https://www.bestbuy.com/identity/global/signin'
@@ -80,10 +80,10 @@ BB_SELECT_STORE_XPATH = '//*[@id="sc-store-availability-modal"]/div/div/div[2]/d
 
 def main():
     order_placed = False
-    browser = launchBrowser()
-    prod_page_check_add_cart(browser)
-    cart_page(browser)
-    order_placed = checkout(browser)
+    
+    ProdPage.check_and_add()
+    cart_page()
+    order_placed = checkout()
     #if order_placed:
         #notify_all()
 
@@ -179,77 +179,74 @@ def sign_in(browser, is_signed_in):
     '''
 
 
-### Product Page ###
-def prod_page_check_add_cart(browser):
-    browser.get(product_url)
+class ProdPage:
+    def check_and_add():
+        browser.get(product_url)
+        # Check product is available
+        addtocart_btn = ProdPage.check_avail()
+        is_added_to_cart = ProdPage.add_to_cart(addtocart_btn)
+        if is_added_to_cart:
+            print('Product added to cart!')
+        else:
+            print('Failed to add to cart')
 
-    # Check product is available
-    addtocart_btn = check_prod_avail(browser)
-
-    is_added_to_cart = try_add_to_cart(addtocart_btn, browser)
-    if is_added_to_cart:
-        print('Product added to cart!')
-    else:
-        print('Failed to add to cart')
-
-def try_add_to_cart(addtocart_btn, browser):
-    
-    add_to_cart_count = 1
-    while True: 
-        if add_to_cart_count == 1:
-            print('Adding to cart...')
-
-        try: 
-            addtocart_btn.click()
-            WebDriverWait(browser, 0.25).until(EC.presence_of_element_located((By.CSS_SELECTOR, '.spinner.spinner-sm')))
-        except:
+    def add_to_cart(addtocart_btn):
+        add_to_cart_count = 1
+        while True: 
             if add_to_cart_count == 1:
-                print_current_time()
-                print('Button stuck. Retrying!\n')
-            add_to_cart_count = 0
-        else:
-            WebDriverWait(browser, 10).until_not(EC.presence_of_element_located((By.CSS_SELECTOR, '.spinner.spinner-sm')))
-            try:
-                WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, BB_CART_POPUP_CSS_SELECTOR)))
+                print('Adding to cart...')
+            try: 
+                addtocart_btn.click()
+                WebDriverWait(browser, 0.25).until(EC.presence_of_element_located((By.CSS_SELECTOR, '.spinner.spinner-sm')))
             except:
-                if EC.presence_of_element_located((By.CSS_SELECTOR, BB_CART_FAILED_CSS)):
-                    print_current_time
-                    print('Failed to add to cart. Retrying!!!\n')
-                    time.sleep(4)
+                if add_to_cart_count == 1:
+                    print_current_time()
+                    print('Button stuck. Retrying!\n')
+                add_to_cart_count = 0
             else:
-                return True
+                WebDriverWait(browser, 10).until_not(EC.presence_of_element_located((By.CSS_SELECTOR, '.spinner.spinner-sm')))
+                try:
+                    WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, BB_CART_POPUP_CSS_SELECTOR)))
+                except:
+                    if EC.presence_of_element_located((By.CSS_SELECTOR, BB_CART_FAILED_CSS)):
+                        print_current_time
+                        print('Failed to add to cart. Retrying!!!\n')
+                        time.sleep(4)
+                else:
+                    return True
 
-def check_prod_avail(browser):
-    avail_count = 0
-    while True:
-        try:
-            WebDriverWait(browser, 1).until(EC.element_to_be_clickable((By.CSS_SELECTOR, BB_ADD_TO_CART_CSS)))
-            addtocart_btn = browser.find_element_by_css_selector(BB_ADD_TO_CART_CSS)
-        except:
-            avail_count += 1
-            if avail_count == 1:
-                print('Product currently unavailable! Refreshing page...\n')
-            elif avail_count%10 == 0:
+    def check_avail():
+        avail_count = 0
+        while True:
+            try:
+                WebDriverWait(browser, 1).until(EC.element_to_be_clickable((By.CSS_SELECTOR, BB_ADD_TO_CART_CSS)))
+                addtocart_btn = browser.find_element_by_css_selector(BB_ADD_TO_CART_CSS)
+            except:
+                avail_count += 1
+                if avail_count == 1:
+                    print('Product currently unavailable! Refreshing page...\n')
+                elif avail_count%10 == 0:
+                    print_current_time()
+                    print('Still unavailable! Retries count:', avail_count, '\n<Refreshing page again...>\n')
+                browser.get(product_url)
+            else:
                 print_current_time()
-                print('Still unavailable! Retries count:', avail_count, '\n<Refreshing page again...>\n')
-            browser.get(product_url)
-        else:
-            print_current_time()
-            print('Product is available!!!\n')
-            return addtocart_btn
+                print('Product is available!!!\n')
+                return addtocart_btn
 
-def cart_page(browser):
+def cart_page():
     is_signed_in = False
 
     browser.get(BB_CART_URL)
     WebDriverWait(browser, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, BB_TO_CHECKOUT_BTN_CSS)))
     browser.find_element_by_css_selector(BB_TO_CHECKOUT_BTN_CSS).click()
-    is_signed_in = sign_in(browser, is_signed_in)
+    is_signed_in = sign_in(is_signed_in)
     if is_signed_in:
         print('Signed in successfully!')
 
 ### Checkout Page ###
-def checkout(browser):
+def checkout():
+    cvv_error_id = 'security-code'
     '''
     # Check if BB Checkout 2FA is active:
     try:
@@ -265,7 +262,7 @@ def checkout(browser):
     '''
 
     # Wait until browser load properly
-    checkout_pg_wait(browser)
+    checkout_pg_wait()
 
     # Switch to shipping option (if available)
     if shipping:
@@ -273,13 +270,13 @@ def checkout(browser):
             browser.find_element_by_link_text(BB_SHIPPING_OPTION_LINKTEXT).click()
         except:
             print('Shipping already set or unable to select shipping option!\n')
-            select_pickup_store(browser)
+            select_pickup_store()
         else:
             print('Selected shipping option.\n')
     else:
-        select_pickup_store(browser)
+        select_pickup_store()
 
-    checkout_pg_wait(browser)
+    checkout_pg_wait()
     if payment_method_ready:
         # Credit Card CVV Code
         browser.find_element_by_id(BB_CREDIT_CVV_ID).send_keys(cvv_num)
@@ -288,7 +285,7 @@ def checkout(browser):
     current_payment_url = browser.current_url
     for retry in range(3):
         try:
-            checkout_pg_wait(browser)
+            checkout_pg_wait()
             browser.find_element_by_css_selector(BB_PLACE_ORDER_CSS_SELECTOR).click()
         except:
             print('Unable to place the order!\n Retrying... \n')
@@ -306,7 +303,7 @@ def checkout(browser):
         print('Success! Order has been placed.\n')
         return True
 
-def select_pickup_store(browser):
+def select_pickup_store():
     try:
         browser.find_element_by_css_selector(BB_CHANGE_PICKUP_STORE).click()
         WebDriverWait(browser, 10).until(EC.element_to_be_clickable((By.ID, BB_PICKUP_STORE_ID)))
@@ -317,7 +314,7 @@ def select_pickup_store(browser):
     else:
         print('Selected chosen store')
 
-def checkout_pg_wait(browser):
+def checkout_pg_wait():
     WebDriverWait(browser, 20).until(EC.element_to_be_clickable((By.CSS_SELECTOR, BB_PLACE_ORDER_CSS_SELECTOR)))
 
 '''
@@ -336,6 +333,5 @@ def notify_all():
     notifier.notifyDesktop(title, message)
     notifier.notifyPhoneEmail(title, message)
 '''
-
-
+browser = launchBrowser()
 main()

@@ -32,6 +32,7 @@ product_url = 'https://www.bestbuy.com/site/nvidia-geforce-rtx-3060-ti-8gb-gddr6
 #product_url = 'https://www.bestbuy.com/site/sony-wh-ch510-wireless-on-ear-headphones-black/6359775.p?skuId=6359775'
 #product_url = 'https://www.bestbuy.com/site/macbook-air-13-3-laptop-apple-m1-chip-8gb-memory-256gb-ssd-latest-model-gold/6418599.p?skuId=6418599'
 
+
 BB_HOME_URL = 'https://www.bestbuy.com/'
 BB_SIGNIN_URL = 'https://www.bestbuy.com/identity/global/signin'
 BB_CHECKOUT_URL = 'https://www.bestbuy.com/checkout/r/fast-track'
@@ -80,7 +81,7 @@ BB_SELECT_STORE_XPATH = '//*[@id="sc-store-availability-modal"]/div/div/div[2]/d
 
 def main():
     order_placed = False
-    browser = launchBrowser()
+    browser = launch_fire_fox()
     prod_page_check_add_cart(browser)
     cart_page(browser)
     order_placed = checkout(browser)
@@ -101,6 +102,9 @@ def launchBrowser():
     options.add_argument("--log-level=3")   # Disable browser minor error logs
     #options.add_experimental_option("detach", True)
     return webdriver.Chrome(desired_capabilities=caps, options=options)
+
+def launch_fire_fox():
+    return webdriver.Firefox()
 
 def sign_in(browser, is_signed_in):
     BB_email_selector = 'fld-e'
@@ -250,6 +254,7 @@ def cart_page(browser):
 
 ### Checkout Page ###
 def checkout(browser):
+    BB_success_url = 'https://www.bestbuy.com/checkout/r/thank-you'
     '''
     # Check if BB Checkout 2FA is active:
     try:
