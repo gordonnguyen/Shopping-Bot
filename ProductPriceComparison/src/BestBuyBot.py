@@ -81,7 +81,7 @@ BB_SELECT_STORE_XPATH = '//*[@id="sc-store-availability-modal"]/div/div/div[2]/d
 
 def main():
     order_placed = False
-    browser = launch_fire_fox()
+    browser = launch_chrome()
     prod_page_check_add_cart(browser)
     cart_page(browser)
     order_placed = checkout(browser)
@@ -94,7 +94,7 @@ def main():
 def print_current_time():
     print(datetime.datetime.now().strftime('< %m/%d/%Y - %H:%M:%S >'))
 
-def launchBrowser():
+def launch_chrome():
     caps = DesiredCapabilities().CHROME
     caps["pageLoadStrategy"] = "eager"
     #chrome_path = 'chromedriver'  # executable_path=chrome_path, 

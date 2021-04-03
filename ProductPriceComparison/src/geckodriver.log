@@ -1,0 +1,26 @@
+1616848020678	geckodriver	INFO	Listening on 127.0.0.1:38197
+1616848020682	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofilewb0a39"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1616848022680	Marionette	INFO	Listening on port 33559
+1616848022717	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: , line 0: TypeError: NetworkError when attempting to fetch resource.
+JavaScript error: , line 0: TypeError: NetworkError when attempting to fetch resource.
+JavaScript error: , line 0: TypeError: NetworkError when attempting to fetch resource.
+JavaScript error: , line 0: TypeError: NetworkError when attempting to fetch resource.
+JavaScript error: , line 0: TypeError: NetworkError when attempting to fetch resource.
+JavaScript error: https://www.bestbuy.com/~assets/bby/_com/shop/header/dist/client/client-current-b56f3fa3c9800c4a1cb4084fc82efb95.mjs, line 1: TypeError: e is undefined
+JavaScript error: https://www.bestbuy.com/~assets/bby/_com/gvp-f76f67cf8c411d16bd2ebb06736c912a.min.js, line 22: Error: Initializer failed to initialize component for shop-primary-image-3534329. Usually this is caused by an exception in your component's client init function.
+JavaScript error: https://www.bestbuy.com/~assets/bby/_com/gvp-f76f67cf8c411d16bd2ebb06736c912a.min.js, line 22: Error: Initializer failed to initialize component for pricing-price-62661567. Usually this is caused by an exception in your component's client init function.
+JavaScript error: , line 0: TypeError: NetworkError when attempting to fetch resource.
+1616848038373	Marionette	WARN	Ignoring event 'DOMContentLoaded' because document has an invalid readyState of 'complete'.
+JavaScript error: https://www.bestbuy.com/~assets/bby/_com/shop/cart-icon/dist/client/client-ea96fead036efd35c6380d7186774e53.js, line 1: Error: Loading chunk 0 failed.
+(error: https://www.bestbuy.com/~assets/bby/_com/shop/cart-icon/dist/client/0-ea96fead036efd35c6380d7186774e53.js)
+JavaScript error: https://www.bestbuy.com/~assets/bby/_com/shop/cart-icon/dist/client/client-ea96fead036efd35c6380d7186774e53.js, line 1: Error: Loading chunk 0 failed.
+(error: https://www.bestbuy.com/~assets/bby/_com/shop/cart-icon/dist/client/0-ea96fead036efd35c6380d7186774e53.js)
+JavaScript error: , line 0: TypeError: NetworkError when attempting to fetch resource.
+JavaScript error: https://www.bestbuy.com/~assets/bby/_com/shop/cart-icon/dist/client/client-ea96fead036efd35c6380d7186774e53.js, line 1: Error: Loading chunk 0 failed.
+(error: https://www.bestbuy.com/~assets/bby/_com/shop/cart-icon/dist/client/0-ea96fead036efd35c6380d7186774e53.js)
+JavaScript error: https://www.bestbuy.com/~assets/bby/_com/shop/cart-icon/dist/client/client-ea96fead036efd35c6380d7186774e53.js, line 1: Error: Loading chunk 0 failed.
+(error: https://www.bestbuy.com/~assets/bby/_com/shop/cart-icon/dist/client/0-ea96fead036efd35c6380d7186774e53.js)
+JavaScript error: , line 0: TypeError: NetworkError when attempting to fetch resource.
+JavaScript error: , line 0: TypeError: NetworkError when attempting to fetch resource.

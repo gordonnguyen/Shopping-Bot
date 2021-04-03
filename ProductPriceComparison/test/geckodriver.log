@@ -1,0 +1,16 @@
+1617454121372	geckodriver	INFO	Listening on 127.0.0.1:54077
+1617454122373	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofileq5mfYT"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1617454124798	Marionette	INFO	Listening on port 37505
+1617454124898	Marionette	WARN	TLS certificate errors will be ignored for this session
+1617454220654	geckodriver	INFO	Listening on 127.0.0.1:43125
+1617454220659	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofileWWstce"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1617454222659	Marionette	INFO	Listening on port 41153
+1617454222682	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: https://www.bestbuy.com/~assets/bby/_com/shop/header/dist/client/client-b56f3fa3c9800c4a1cb4084fc82efb95.mjs, line 1: ChunkLoadError: Loading chunk 8 failed.
+(error: https://www.bestbuy.com/~assets/bby/_com/shop/header/dist/client/flyout-component-b56f3fa3c9800c4a1cb4084fc82efb95.mjs)
+JavaScript error: , line 0: TypeError: NetworkError when attempting to fetch resource.
+JavaScript error: https://www.bestbuy.com/~assets/bby/_com/shop/header/dist/client/client-b56f3fa3c9800c4a1cb4084fc82efb95.mjs, line 1: ChunkLoadError: Loading chunk 8 failed.
+(error: https://www.bestbuy.com/~assets/bby/_com/shop/header/dist/client/flyout-component-b56f3fa3c9800c4a1cb4084fc82efb95.mjs)
+1617454265150	Marionette	INFO	Stopped listening on port 37505
