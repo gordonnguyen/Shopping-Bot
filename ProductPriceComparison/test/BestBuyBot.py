@@ -10,6 +10,11 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+
+import utils.best_buy.urls
+from utils.best_buy.locators import Locators
+from utils.best_buy.product_page import ProductPage
+
 import datetime
 import time
 #import notifier
@@ -99,7 +104,7 @@ def main():
 def add_product():
     order_placed = False
     driver = launch_chrome()
-    prod_page = ProductPage(driver)
+    prod_page = ProductPage(driver, product_url)
     avail_count = 0
 
     while True:
@@ -149,6 +154,7 @@ def launch_chrome():
 def launch_fire_fox():
     return webdriver.Firefox()
 
+'''
 class BasePage():
     
     # Initialize browser
@@ -182,20 +188,6 @@ class ProductPage(BasePage):
 
 
     ### Product Page ###
-    '''
-    def prod_page_check_add_cart(self):
-        self.driver.get(self.url)
-
-        # Check product is available
-        addtocart_btn = prod_avail(driver)
-
-        is_added_to_cart = try_add_to_cart(addtocart_btn, driver)
-        if is_added_to_cart:
-            print('Product added to cart!')
-        else:
-            print('Failed to add to cart')
-    '''
-
     # Change URL to prod_url
     def __init__(self, driver):
         super().__init__(driver)
@@ -209,15 +201,15 @@ class ProductPage(BasePage):
         add_cart_btn = self.get_add_cart_btn(self)
         try: 
             add_cart_btn.click()
-            WebDriverWait(self.driver, 0.25).until(EC.presence_of_element_located((By.CSS_SELECTOR, '.spinner.spinner-sm')))
+            WebDriverWait(self.driver, 0.25).until(EC.presence_of_element_loca.ProductPage.add_btn_animation))
         except:
             return False
         else:
-            WebDriverWait(self.driver, 10).until_not(EC.presence_of_element_located((By.CSS_SELECTOR, '.spinner.spinner-sm')))
+            WebDriverWait(self.driver, 10).until_not(EC.presence_of_element_loca.ProductPage.add_btn_animation))
             try:
-                WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, self.BB_CART_POPUP_CSS_SELECTOR)))
+                WebDriverWait(self.driver, 10).until(EC.presence_of_element_loca.ProductPage.cart_popup))
             except:
-                if EC.presence_of_element_located((By.CSS_SELECTOR, self.BB_CART_FAILED_CSS)):
+                if EC.presence_of_element_loca.ProductPage.cart_failed_popup):
                     print_current_time
                     print('Failed to add to cart. Retrying!!!\n')
                     time.sleep(4)
@@ -236,8 +228,10 @@ class ProductPage(BasePage):
             return True
             
     def get_add_cart_btn(self):
-        return WebDriverWait(self.driver, 1).until(EC.element_to_be_clickable((By.CSS_SELECTOR, self.bb_add_to_cart_css)))
+        return WebDriverWait(self.driver, 1).until(EC.element_to_be_clicka.ProductPage.add_cart_btn))
+'''
 
+'''
 class CartPage(BasePage):
     def __init__(self, driver):
         self.driver = driver
@@ -307,6 +301,7 @@ class SignInPage(BasePage):
                 WebDriverWait(driver, 240).until_not(EC.presence_of_element_located((By.ID, self.BB_verify_field_ID)))
         else:
             print('No 2FA detected!\n')
+'''
 
 ### Checkout Page ###
 class CheckOutPage():
