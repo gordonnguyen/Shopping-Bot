@@ -33,11 +33,11 @@ class ProductPage(BasePage):
             self.is_added = False
         else:
             print('Button clicked')
-            WebDriverWait(self.driver, 10).until_not(EC.presence_of_element_located(ProductPageLocators.add_btn_animation))
+            self.wait.until_not(EC.presence_of_element_located(ProductPageLocators.add_btn_animation))
             
             try:
                 print('Checking popup')
-                WebDriverWait(self.driver, 10).until(EC.presence_of_element_located(ProductPageLocators.cart_popup))
+                self.wait.until(EC.presence_of_element_located(ProductPageLocators.cart_popup))
             except:
                 print('Click unsuccessful!')
                 self.is_added = False

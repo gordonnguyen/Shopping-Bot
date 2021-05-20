@@ -36,7 +36,7 @@ class SignInPage(BasePage):
 
         # Submit / Signin button
         self.driver.find_element_by_class_name(self.BB_signin_selector).click()
-        WebDriverWait(self.driver, 10).until(EC.url_changes(self.driver.current_url))
+        self.wait.until(EC.url_changes(self.driver.current_url))
         #WebDriverWait(driver, 10).until(EC.url_changes(current_signin_url))
 
     # This function check if the current page is for verifying two factor authentication (2FA)
@@ -45,7 +45,7 @@ class SignInPage(BasePage):
         print('Current 2FA url: ', current_url)
         try:
             # Check if an option for sms verification method is available
-            self.sms_opt_btn = WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable(SignInPageLocators.f2a_text_option))
+            self.sms_opt_btn = self.wait.until(EC.element_to_be_clickable(SignInPageLocators.f2a_text_option))
         except:
             return False
         else:
@@ -58,11 +58,11 @@ class SignInPage(BasePage):
         print('Require user interaction!')
         #driver.find_element_by_xpath(self.BB_2fa_text_option_XPATH).click()
         self.sms_opt_btn.click()
-        WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable(SignInPageLocators.sms_digits_fld)).send_keys(self.sms_digits)
+        self.wait.until(EC.element_to_be_clickable(SignInPageLocators.sms_digits_fld)).send_keys(self.sms_digits)
         #self.driver.find_element_by_id(SignInPageLocators.sms_digits_fld).send_keys(self.sms_digits)
         self.driver.find_element(*SignInPageLocators.signin_btn).click()
 
         # Wait for user to type 2fa code
-        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located(SignInPageLocators.verify_code_fld))
+        self.wait.until(EC.presence_of_element_located(SignInPageLocators.verify_code_fld))
         WebDriverWait(self.driver, 240).until_not(EC.presence_of_element_located(SignInPageLocators.verify_code_fld))
     

@@ -43,17 +43,21 @@ class CheckOutPageLocators:
     SHIPPING_RADIO_XPATH = '//*[@id="cartApp"]/*div[2]/div[1]/div/div'
     SHIPPING_OPTION_XPATH = '//*[@id="checkoutApp"]/div[2]/div[1]/div[1]/main/div[2]/div[2]/form/section/div/div[1]/div/div/section/div[2]/div[2]/div[2]/div/div/a'
 
-    SHIPPING_OPTION_LINKTEXT = 'Switch to Shipping'
-    SHIPPING_OPTION_CSS_SELECTOR = 'a.ispu-card__switch'
-    SHIPPING_RADIO_CSS_SELECTOR = 'div.availability__entry.availability--unselected.availability--remove-z-index > div > div'
+    shipping_radio_btn = (By.LINK_TEXT,'Switch to Shipping')
+    pickup_radio_btn = (By.LINK_TEXT,'Switch to Pickup')
+    #SHIPPING_OPTION_CSS_SELECTOR = 'a.ispu-card__switch'
+    #SHIPPING_RADIO_CSS_SELECTOR = 'div.availability__entry.availability--unselected.availability--remove-z-index > div > div'
     CONTINUE_PAYMENT_XPATH = '//*[@id="checkoutApp"]/div[2]/div[1]/div[1]/main/div[2]/div[2]/form/section/div/div[2]/div/div/button'
 
-    PLACE_ORDER_XPATH = '//*[@id="checkoutApp"]/div[2]/div[1]/div[1]/main/div[2]/div[3]/div/section/div[4]/button'
+    #PLACE_ORDER_XPATH = '//*[@id="checkoutApp"]/div[2]/div[1]/div[1]/main/div[2]/div[3]/div/section/div[4]/button'
+    shipping_card_frame = (By.CSS_SELECTOR, 'div.checkout-panel.shipping-card')
+    pickup_card_frame = (By.CSS_SELECTOR, 'section.pickup-location')
+                            
+                            
+    place_order_btn = (By.CSS_SELECTOR, '.btn.btn-lg.btn-block.btn-primary')
+    credit_cvv = (By.ID, 'credit-card-cvv')
 
-    PLACE_ORDER_CSS_SELECTOR = '.btn.btn-lg.btn-block.btn-primary'
-    CREDIT_CVV_ID = 'credit-card-cvv'
-
-    CHANGE_PICKUP_STORE = 'a.btn-default-link.link-styled-button.ispu-display__change'
-    PICKUP_STORE_ID = 'store-213-fulfillment'        # Sharptown 8210 S Gessner Dr Houston, TX 77036
+    change_store_btn = (By.CSS_SELECTOR, 'a.btn-default-link.link-styled-button.ispu-display__change')
+    pickup_store_id = (By.ID, 'store-213-fulfillment')        # Sharptown 8210 S Gessner Dr Houston, TX 77036
     PICKUP_STORE_CSS = '#store-213-fulfillment-wrapper > a'
-    SELECT_STORE_XPATH = '//*[@id="sc-store-availability-modal"]/div/div/div[2]/div/div/div[2]/div[3]/div[3]/div'
+    select_store_btn = (By.XPATH, '//*[@id="sc-store-availability-modal"]/div/div/div[2]/div/div/div[2]/div[3]/div[3]/div')

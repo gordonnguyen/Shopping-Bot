@@ -15,6 +15,7 @@ from utils.best_buy import locators
 from utils.best_buy.product_page import ProductPage
 from utils.best_buy.cart_page import CartPage
 from utils.best_buy.sign_in_page import SignInPage
+from utils.best_buy.checkout_page import CheckOutPage
 from utils.best_buy.urls import MainUrls
 
 import datetime
@@ -91,12 +92,19 @@ def main():
     time.sleep(final_viewing_time)
     driver.close()
     '''
+    print(LINE)
+    print_current_time()
+    print('Created by Gordon Nguyen (2021).\nStarting BestBuyBot...')
+
     add_product(driver)
     cart_page = CartPage(driver)
     cart_page.to_main_url()
     cart_page.to_checkout()
     sign_in(driver)
+    checkout(driver)
+
     print(LINE)
+    print_current_time()
     print('All done!!!')
     while True:
         pass
@@ -144,6 +152,7 @@ def add_product(driver):
 
 def sign_in(driver):
     sign_in_page = SignInPage(driver)
+
     if MainUrls.f2a_pattern in driver.current_url:
         print(LINE + '\nF2A Sign in page: True')
     else:
@@ -163,7 +172,20 @@ def sign_in(driver):
         print(LINE + '\n2FA not detected!')
 
 def checkout(driver):
-    checkout_page = CheckOutPage
+    checkout_page = CheckOutPage(driver)
+    checkout_page.select_delivery_option('pickup', 'store-213-fulfillment')
+    checkout_page.fill_payment()
+    checkout_page.place_order()
+
+    if checkout_page.check_order_success():
+        print(LINE)
+        print_current_time()
+        print('Order placed!')
+    else:
+        print(LINE)
+        print_current_time()
+        print('Order failed!')
+
 
 def print_current_time():
     print(datetime.datetime.now().strftime('< %m/%d/%Y - %H:%M:%S >'))
@@ -180,11 +202,12 @@ def launch_chrome():
 def launch_fire_fox():
     return webdriver.Firefox()
 
-
+'''
 ### Checkout Page ###
 class CheckOutPage():
     BB_success_url = 'https://www.bestbuy.com/checkout/r/thank-you'
-    '''
+ 
+
     # Check if BB Checkout 2FA is active:
     try:
         WebDriverWait(driver, 10).until(EC.url_matches('https://www.bestbuy.com/identity/signin'))
@@ -196,16 +219,16 @@ class CheckOutPage():
             print('Signed in successfully')
         else:
             print('Unable to sign in!')
-    '''
+
 
     # Wait until driver load properly
     #checkout_pg_wait(driver)
 
-    def select_shipping():
+    def select_shipping(self):
         # Switch to shipping option (if available)
         if shipping:
             try:
-                driver.find_element_by_link_text(BB_SHIPPING_OPTION_LINKTEXT).click()
+                self.driver.find_element_by_link_text(BB_SHIPPING_OPTION_LINKTEXT).click()
             except:
                 print('Shipping already set or unable to select shipping option!\n')
                 select_pickup_store(driver)
@@ -256,6 +279,8 @@ class CheckOutPage():
 
     def checkout_pg_wait(driver):
         WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.CSS_SELECTOR, BB_PLACE_ORDER_CSS_SELECTOR)))
+'''
+
 
 '''
 class bb_notify:

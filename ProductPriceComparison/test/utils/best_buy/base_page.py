@@ -12,23 +12,35 @@ class BasePage():
     def __init__(self, driver):
         self.driver = driver
 
+        # Wait for browser (10 seconds as default wait time)
+        self.wait = WebDriverWait(driver, 10)
+
+
     # Wait for element to be clickable and click
     def click(self, by_locator):
-        WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable(by_locator)).click()
+        self.wait.until(EC.element_to_be_clickable(by_locator)).click()
 
     def set_url(self, url):
         self.url = url
 
     # Select element in webpage and fill text
     def enter_text(self, by_locator, text):
-        WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(by_locator)).send_keys(text)
+        self.wait.until(EC.visibility_of_element_located(by_locator)).send_keys(text)
 
     # Check if the current url is correct to use for this object
-    def is_correct_url(self, target_url):
-        if self.driver.current_url == target_url:
-            return True
-        else:
+    def is_correct_url(self):
+        print('Target url:', self.main_url)
+        print('Current url:', self.driver.current_url)
+        try:
+            WebDriverWait(self.driver, 6).until(EC.url_to_be(self.main_url))
+        except:
+            print('Failed to detect url')
             return False
+        else:
+            print('Correct url')
+            return True
+        #if self.driver.current_url == self.main_url:
 
     def to_main_url(self):
         self.driver.get(self.url)
+

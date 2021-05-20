@@ -14,4 +14,4 @@ class MainUrls:
     payment = 'https://www.bestbuy.com/checkout/r/payment'
     cart = 'https://www.bestbuy.com/cart'
     f2a_pattern = 'identity/signin'
-    checkout_final = 'https://www.bestbuy.com/checkout/r/fast-track'
+    checkout_completed = 'https://www.bestbuy.com/checkout/r/thank-you'
